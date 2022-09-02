@@ -1,0 +1,84 @@
+spring:
+  profiles:
+#    active: mylocaltest
+#    active: mylocaltest49
+#    active: localtest139
+    active: cccc
+#    active: remote139
+  application:
+    name: business-admin
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      maximum-pool-size: 20
+      minimum-idle: 5
+      idleTimeout: 180000
+server:
+  port: 8001
+ribbon:
+  ReadTimeout: 60000
+  ConnectTimeout: 60000
+mybatis-plus:
+  global-config:
+    banner: false
+  # mybatis-plus 配置扫描通用枚举
+  mapper-locations: classpath*:/mapper/**/*.xml
+  # 支持统配符 * 或者 ; 分割
+#  typeEnumsPackage: com.dhcc.finace.core.enums
+  type-aliases-package: com.xingye.admin.**.entity
+  configuration:
+    auto-mapping-unknown-column-behavior: WARNING
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+# 引入swagger
+swagger:
+  enabled: false
+  title: ${spring.application.name}
+  version: "@project.version@"
+  description: 后台管理模块实例
+  base-package: com.xingye.admin
+boao:
+  cloud:
+    client:
+      session-info:
+#        session-info-type: REQUEST
+        session-info-type: JWT
+        attributes: userId,username
+  # 代码自动生成
+  db:
+    mybatisplus:
+      generator:
+        project-module: admin
+        author: jhua
+        parent-package: com.xingye
+        module-name: admin
+        tables: cuco_meeting_menu
+  utils:
+    bean:
+      local-date-format: yyyyMMdd
+      local-date-time-format: yyyyMMdd HH:mm:ss
+#  actuator接口暴露 提供给admin prometheus nacos 进行健康监控
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+    logfile:
+      external-file:  #G:\alicode\xingye-platform\log\crm\info.log  admin拿log日志的地址
+  endpoint:
+    health:
+      show-details: always
+# xxl-job
+xxl:
+  job:
+    accessToken:
+    executor:
+      appname: xxl-job-executor-admin
+      ip:
+      # port为负数，则随机端口
+      port: -1
+      address:
+      logpath:
+      ### xxl-job log retention days
+      logretentiondays: 1

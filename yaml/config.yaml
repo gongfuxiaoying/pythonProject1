@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: linux-node02
+  namespace: yaml-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: podinfo
+  template:
+    metadata:
+      labels:
+        app: podinfo
+    spec:
+      containers:
+      - image: quay.io/stefanprodan/podinfo:0.3.0
+        name: podinfod
+        ports:
+        - containerPort: 9898
